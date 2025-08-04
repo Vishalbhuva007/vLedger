@@ -1,218 +1,340 @@
-# vLedger - TypeScript Ledger System
+# 📊 vLedger - Double-Entry Accounting System
 
-A double-entry accounting ledger system built with TypeScript, PostgreSQL, and Prisma.
+A modern, full-stack double-entry accounting system built with TypeScript, featuring a RESTful API backend and a React-based admin panel.
 
-## Features
+## 🌟 Features
 
-- **Double-Entry Accounting**: All transactions follow double-entry bookkeeping principles
-- **Chart of Accounts**: Manage accounts with types (Asset, Liability, Equity, Revenue, Expense)
-- **Transaction Management**: Create, post, and cancel transactions
-- **Reporting**: Generate trial balance and general ledger reports
-- **REST API**: Complete REST API for all operations
-- **Admin Panel**: Modern React-based web interface for system management
-- **Type Safety**: Full TypeScript support with Prisma ORM
+- **Double-Entry Bookkeeping**: Proper accounting principles with automatic balance validation
+- **Modern Tech Stack**: TypeScript, Prisma ORM, Express.js, React 18, Tailwind CSS
+- **Real-time Dashboard**: Interactive charts and financial summaries
+- **Account Management**: Create and manage different account types (Assets, Liabilities, Equity, Revenue, Expenses)
+- **Transaction Processing**: Create, post, and manage financial transactions
+- **Financial Reports**: Trial Balance, General Ledger, and Account Balances
+- **RESTful API**: Complete API for integration with other systems
+- **Responsive UI**: Modern, mobile-friendly admin interface
 
-## Prerequisites
+## 🏗️ System Architecture
 
-- Node.js (v18 or higher)
-- PostgreSQL database
-- npm or yarn
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Admin Panel   │    │   API Server    │    │   Database      │
+│   (React +      │◄──►│   (Express +    │◄──►│   (SQLite +     │
+│   Tailwind)     │    │   TypeScript)   │    │   Prisma)       │
+│   Port: 3001    │    │   Port: 3000    │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
-## Setup
+## 📋 Prerequisites
 
-1. **Clone and install dependencies**:
-   ```bash
-   npm install
-   ```
+Before you begin, ensure you have the following installed:
 
-2. **Set up your database**:
-   - Create a PostgreSQL database
-   - Update the `DATABASE_URL` in `.env` file:
-     ```
-     DATABASE_URL="postgresql://username:password@localhost:5432/vledger?schema=public"
-     ```
+- **Node.js** (v16 or higher) - [Download here](https://nodejs.org/)
+- **npm** (comes with Node.js) or **yarn**
+- **Git** - [Download here](https://git-scm.com/)
 
-3. **Run database migrations**:
-   ```bash
-   npm run generate
-   npm run migrate
-   ```
+## 🚀 Quick Start Guide
 
-4. **Seed the database with sample chart of accounts**:
-   ```bash
-   npx ts-node prisma/seed.ts
-   ```
+### Step 1: Clone the Repository
 
-5. **Start the application**:
-   ```bash
-   npm run dev
-   ```
+```bash
+git clone https://github.com/Vishalbhuva007/vLedger.git
+cd vLedger
+```
 
-6. **Set up the admin panel** (optional):
-   ```bash
-   # Install admin panel dependencies
-   npm run admin:install
-   
-   # Start both API server and admin panel
-   npm run dev:all
-   ```
-   
-   The API server will run on `http://localhost:3000`
-   The admin panel will run on `http://localhost:3001`
+### Step 2: Install Dependencies
 
-## Usage
+Install backend dependencies:
+```bash
+npm install
+```
 
-### Starting the Server
+Install admin panel dependencies:
+```bash
+npm run admin:install
+```
 
+### Step 3: Configure Environment Variables
+
+Create a `.env` file in the root directory:
+```bash
+cp .env.example .env
+```
+
+Update the `.env` file with the SQLite database configuration:
+```properties
+# Database Configuration
+DATABASE_URL="file:./dev.db"
+
+# Optional: API Configuration
+PORT=3000
+NODE_ENV=development
+```
+
+### Step 4: Set Up the Database
+
+Generate Prisma client:
+```bash
+npm run generate
+```
+
+Create and initialize the database:
+```bash
+npx prisma migrate dev --name init
+```
+
+### Step 5: Seed Sample Data (Optional)
+
+Load sample accounts and transactions:
+```bash
+npx ts-node scripts/seed.ts
+```
+
+This will create:
+- 6 sample accounts (Cash, Accounts Receivable, etc.)
+- 3 sample transactions demonstrating double-entry bookkeeping
+
+### Step 6: Start the Application
+
+Start both the API server and admin panel:
+
+**Terminal 1 - API Server:**
 ```bash
 npm run dev
 ```
 
-The server will start on `http://localhost:3000`
+**Terminal 2 - Admin Panel:**
+```bash
+cd admin && npm run dev
+```
 
-### API Endpoints
+### Step 7: Access the Application
 
-#### Accounts
+- **Admin Panel**: [http://localhost:3001](http://localhost:3001)
+- **API Health Check**: [http://localhost:3000/health](http://localhost:3000/health)
+- **API Base URL**: `http://localhost:3000`
 
+## 📁 Project Structure
+
+```
+vLedger/
+├── src/                          # Backend source code
+│   ├── services/
+│   │   └── LedgerService.ts      # Core business logic
+│   ├── types/                    # TypeScript type definitions
+│   └── index.ts                  # Express server entry point
+├── admin/                        # Frontend admin panel
+│   ├── src/
+│   │   ├── components/           # Reusable React components
+│   │   ├── pages/                # Page components
+│   │   ├── services/             # API client services
+│   │   └── types/                # Frontend type definitions
+│   ├── public/                   # Static assets
+│   └── package.json              # Frontend dependencies
+├── prisma/
+│   ├── schema.prisma             # Database schema
+│   └── migrations/               # Database migrations
+├── scripts/
+│   ├── seed.ts                   # Database seeding script
+│   └── examples/                 # Usage examples
+├── .env                          # Environment variables
+└── package.json                  # Backend dependencies
+```
+
+## 🔧 Available Scripts
+
+### Backend Scripts
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run generate` - Generate Prisma client
+
+### Admin Panel Scripts
+- `npm run admin:install` - Install admin panel dependencies
+- `cd admin && npm run dev` - Start admin panel development server
+- `cd admin && npm run build` - Build admin panel for production
+
+## 📊 API Endpoints
+
+### Accounts
+- `GET /accounts` - List all accounts
 - `POST /accounts` - Create a new account
-- `GET /accounts` - Get all accounts
 - `GET /accounts/:id` - Get account by ID
 - `GET /accounts/code/:code` - Get account by code
 - `GET /accounts/code/:code/balance` - Get account balance
 
-#### Transactions
-
+### Transactions
+- `GET /transactions` - List all transactions
 - `POST /transactions` - Create a new transaction
-- `GET /transactions` - Get all transactions
 - `GET /transactions/:id` - Get transaction by ID
 - `POST /transactions/:id/post` - Post a transaction
 - `POST /transactions/:id/cancel` - Cancel a transaction
 
-#### Reports
+### Reports
+- `GET /reports/trial-balance` - Generate trial balance
+- `GET /reports/general-ledger` - Generate general ledger
+- `GET /reports/general-ledger?accountCode=1000` - Account-specific ledger
 
-- `GET /reports/trial-balance` - Get trial balance
-- `GET /reports/general-ledger?accountCode=:code` - Get general ledger (optionally filtered by account)
+## 💡 Usage Examples
 
-### Example Usage
-
-#### Creating an Account
-
+### Creating an Account
 ```bash
-curl -X POST http://localhost:3000/accounts \\
-  -H "Content-Type: application/json" \\
+curl -X POST http://localhost:3000/accounts \
+  -H "Content-Type: application/json" \
   -d '{
     "code": "1000",
     "name": "Cash",
     "type": "ASSET",
-    "description": "Cash and cash equivalents"
+    "description": "Cash on hand"
   }'
 ```
 
-#### Recording a Transaction
-
+### Creating a Transaction
 ```bash
-curl -X POST http://localhost:3000/transactions \\
-  -H "Content-Type: application/json" \\
+curl -X POST http://localhost:3000/transactions \
+  -H "Content-Type: application/json" \
   -d '{
-    "reference": "SALE-001",
-    "description": "Sale to customer",
-    "date": "2025-08-04T10:00:00Z",
+    "reference": "TXN-001",
+    "description": "Office supplies purchase",
+    "date": "2024-01-15",
     "entries": [
       {
-        "debitAccountCode": "1000",
-        "amount": 1000,
-        "description": "Cash received"
+        "debitAccountCode": "5000",
+        "amount": 250,
+        "description": "Office supplies"
       },
       {
-        "creditAccountCode": "4000", 
-        "amount": 1000,
-        "description": "Sales revenue"
+        "creditAccountCode": "1000",
+        "amount": 250,
+        "description": "Cash payment"
       }
     ]
   }'
 ```
 
-### Admin Panel
+## 🎯 Key Concepts
 
-The system includes a modern React-based admin panel for easy management:
-
-#### Features:
-- **Dashboard**: Overview of accounts, transactions, and financial summaries
-- **Account Management**: Create and manage chart of accounts
-- **Transaction Processing**: Create double-entry transactions with validation
-- **Financial Reports**: Trial balance, general ledger, and visual analytics
-- **Real-time Updates**: Live data from the API
-
-#### Access:
-- Start with: `npm run dev:all`
-- Admin Panel: `http://localhost:3001`
-- API Server: `http://localhost:3000`
-
-See `admin/README.md` for detailed admin panel documentation.
-
-### Programming Examples
-
-See the `examples/basic-usage.ts` file for programmatic usage examples:
-
-```bash
-npx ts-node examples/basic-usage.ts
-```
-
-## Database Schema
-
-The system uses the following main entities:
-
-- **Account**: Chart of accounts with codes, names, and types
-- **Transaction**: Financial transactions with references and descriptions  
-- **JournalEntry**: Individual debit/credit entries within transactions
+### Double-Entry Bookkeeping
+Every transaction must have equal debits and credits:
+- **Debits** increase Assets and Expenses
+- **Credits** increase Liabilities, Equity, and Revenue
+- Total debits must equal total credits for each transaction
 
 ### Account Types
+- **ASSET**: Things the business owns (Cash, Equipment, Inventory)
+- **LIABILITY**: Things the business owes (Accounts Payable, Loans)
+- **EQUITY**: Owner's stake in the business
+- **REVENUE**: Money earned from operations
+- **EXPENSE**: Costs of doing business
 
-- `ASSET`: Resources owned by the entity
-- `LIABILITY`: Debts owed by the entity
-- `EQUITY`: Owner's stake in the entity
-- `REVENUE`: Income earned by the entity
-- `EXPENSE`: Costs incurred by the entity
+### Transaction Lifecycle
+1. **PENDING**: Transaction created but not yet posted
+2. **POSTED**: Transaction is final and affects account balances
+3. **CANCELLED**: Transaction is voided
 
-## Development
+## 🛠️ Troubleshooting
 
-### Building
+### Common Issues
 
+**1. Database Connection Error**
+```
+Error: Database not found
+```
+**Solution**: Run `npx prisma migrate dev --name init` to create the database.
+
+**2. Port Already in Use**
+```
+Error: listen EADDRINUSE: address already in use :::3000
+```
+**Solution**: Stop other processes using the port or change the PORT in `.env`.
+
+**3. Admin Panel Blank Page**
+- Check browser console for errors
+- Ensure API server is running on port 3000
+- Verify admin panel is running on port 3001
+
+**4. Environment Configuration**
+Make sure your `.env` file contains:
+```
+DATABASE_URL="file:./dev.db"
+```
+
+### Development Tips
+
+1. **Hot Reload**: Both backend and frontend support hot reload during development
+2. **Database Reset**: Use `npx prisma migrate reset` to start fresh (development only)
+3. **API Testing**: Use tools like Postman or curl to test API endpoints
+4. **Browser DevTools**: Check Network tab for API call failures
+
+## 🧪 Testing
+
+### Manual Testing Checklist
+- [ ] API server starts without errors
+- [ ] Admin panel loads successfully
+- [ ] Can create new accounts
+- [ ] Can create balanced transactions
+- [ ] Trial balance shows correct totals
+- [ ] Reports generate without errors
+
+### Sample Test Data
+The seed script creates a complete example with:
+- Initial capital investment ($10,000)
+- Office expense transaction ($500)
+- Customer sale on credit ($1,500)
+
+## 🔐 Security Considerations
+
+- **Environment Variables**: Never commit `.env` files to version control
+- **Input Validation**: All API endpoints validate input data
+- **SQL Injection**: Prisma ORM provides protection against SQL injection
+- **CORS**: Configured for development (update for production)
+
+## 🚀 Production Deployment
+
+### Environment Setup
+1. Update `.env` for production database
+2. Set `NODE_ENV=production`
+3. Configure proper CORS origins
+4. Use process manager (PM2, Docker, etc.)
+
+### Build Commands
 ```bash
+# Build backend
 npm run build
+
+# Build admin panel
+cd admin && npm run build
+
+# Start production server
+npm run start
 ```
 
-### Testing
+## 🤝 Contributing
 
-```bash
-npm test
-```
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### Database Management
+## 📄 License
 
-- **View data**: `npm run studio` (opens Prisma Studio)
-- **Reset database**: `npx prisma migrate reset`
-- **Generate client**: `npm run generate`
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Architecture
+## 🙏 Acknowledgments
 
-The system follows these principles:
+- Built with [Prisma](https://prisma.io/) for database management
+- UI components inspired by [Tailwind UI](https://tailwindui.com/)
+- Charts powered by [Recharts](https://recharts.org/)
+- Icons from [Lucide React](https://lucide.dev/)
 
-1. **Double-Entry Bookkeeping**: Every transaction has equal debits and credits
-2. **Immutable Transactions**: Posted transactions cannot be modified
-3. **Audit Trail**: Complete history of all changes
-4. **Balance Validation**: Automatic validation that books balance
+## 📞 Support
 
-## Chart of Accounts Structure
+If you encounter any issues or have questions:
 
-The default chart of accounts follows standard accounting practices:
+1. Check the [troubleshooting section](#-troubleshooting)
+2. Search existing [GitHub Issues](https://github.com/Vishalbhuva007/vLedger/issues)
+3. Create a new issue with detailed information
 
-- **1000-1999**: Assets (Cash, Receivables, Inventory, Equipment)
-- **2000-2999**: Liabilities (Payables, Loans, Debt)
-- **3000-3999**: Equity (Owner's Equity, Retained Earnings)
-- **4000-4999**: Revenue (Sales, Interest Income)
-- **5000-5999**: Expenses (COGS, Salaries, Rent, Utilities)
+---
 
-## License
-
-MIT
+**Happy Accounting!** 📊✨
