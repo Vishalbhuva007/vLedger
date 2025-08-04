@@ -1,0 +1,35 @@
+{
+  "name": "vledger",
+  "version": "1.0.0",
+  "description": "A ledger system built with TypeScript and PostgreSQL",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest",
+    "migrate": "npx prisma migrate dev",
+    "studio": "npx prisma studio",
+    "generate": "npx prisma generate",
+    "seed": "ts-node prisma/seed.ts",
+    "example": "ts-node examples/basic-usage.ts"
+  },
+  "keywords": ["ledger", "accounting", "typescript", "postgresql"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/jest": "^29.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "prisma": "^5.0.0",
+    "decimal.js": "^10.4.0",
+    "express": "^4.18.0",
+    "@types/express": "^4.17.0"
+  }
+}
