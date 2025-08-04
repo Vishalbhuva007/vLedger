@@ -6,70 +6,50 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Account {
-  id          String   @id @default(cuid())
-  code        String   @unique
-  name        String
-  type        AccountType
-  description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  id              String    @id @default(cuid())
+  code            String    @unique
+  name            String
+  type            String    // ASSET, LIABILITY, EQUITY, REVENUE, EXPENSE
+  description     String?
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
   // Relations
-  debitEntries  JournalEntry[] @relation("DebitAccount")
-  creditEntries JournalEntry[] @relation("CreditAccount")
-
-  @@map("accounts")
+  debitEntries    JournalEntry[] @relation("DebitAccount")
+  creditEntries   JournalEntry[] @relation("CreditAccount")
 }
 
 model Transaction {
-  id          String   @id @default(cuid())
-  reference   String   @unique
-  description String
-  date        DateTime
-  amount      Decimal  @db.Decimal(15, 2)
-  status      TransactionStatus @default(PENDING)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  id              String    @id @default(cuid())
+  reference       String    @unique
+  description     String
+  date            DateTime
+  amount          Float
+  status          String    @default("PENDING") // PENDING, POSTED, CANCELLED
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
   // Relations
-  journalEntries JournalEntry[]
-
-  @@map("transactions")
+  journalEntries  JournalEntry[]
 }
 
 model JournalEntry {
-  id            String   @id @default(cuid())
-  transactionId String
-  debitAccountId String?
-  creditAccountId String?
-  amount        Decimal  @db.Decimal(15, 2)
-  description   String?
-  createdAt     DateTime @default(now())
-
+  id                String        @id @default(cuid())
+  transactionId     String
+  debitAccountId    String?
+  creditAccountId   String?
+  amount            Float
+  description       String?
+  createdAt         DateTime      @default(now())
+  
   // Relations
-  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
-  debitAccount  Account?    @relation("DebitAccount", fields: [debitAccountId], references: [id])
-  creditAccount Account?    @relation("CreditAccount", fields: [creditAccountId], references: [id])
-
-  @@map("journal_entries")
-}
-
-enum AccountType {
-  ASSET
-  LIABILITY
-  EQUITY
-  REVENUE
-  EXPENSE
-}
-
-enum TransactionStatus {
-  PENDING
-  POSTED
-  CANCELLED
+  transaction       Transaction   @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  debitAccount      Account?      @relation("DebitAccount", fields: [debitAccountId], references: [id])
+  creditAccount     Account?      @relation("CreditAccount", fields: [creditAccountId], references: [id])
 }

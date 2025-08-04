@@ -11,3 +11,9 @@ coverage/
 .nyc_output/
 *.tgz
 *.tar.gz
+
+# Admin panel
+admin/node_modules/
+admin/dist/
+admin/.env
+admin/.env.local

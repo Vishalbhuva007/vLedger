@@ -9,6 +9,7 @@ A double-entry accounting ledger system built with TypeScript, PostgreSQL, and P
 - **Transaction Management**: Create, post, and cancel transactions
 - **Reporting**: Generate trial balance and general ledger reports
 - **REST API**: Complete REST API for all operations
+- **Admin Panel**: Modern React-based web interface for system management
 - **Type Safety**: Full TypeScript support with Prisma ORM
 
 ## Prerequisites
@@ -46,6 +47,18 @@ A double-entry accounting ledger system built with TypeScript, PostgreSQL, and P
    ```bash
    npm run dev
    ```
+
+6. **Set up the admin panel** (optional):
+   ```bash
+   # Install admin panel dependencies
+   npm run admin:install
+   
+   # Start both API server and admin panel
+   npm run dev:all
+   ```
+   
+   The API server will run on `http://localhost:3000`
+   The admin panel will run on `http://localhost:3001`
 
 ## Usage
 
@@ -118,6 +131,24 @@ curl -X POST http://localhost:3000/transactions \\
     ]
   }'
 ```
+
+### Admin Panel
+
+The system includes a modern React-based admin panel for easy management:
+
+#### Features:
+- **Dashboard**: Overview of accounts, transactions, and financial summaries
+- **Account Management**: Create and manage chart of accounts
+- **Transaction Processing**: Create double-entry transactions with validation
+- **Financial Reports**: Trial balance, general ledger, and visual analytics
+- **Real-time Updates**: Live data from the API
+
+#### Access:
+- Start with: `npm run dev:all`
+- Admin Panel: `http://localhost:3001`
+- API Server: `http://localhost:3000`
+
+See `admin/README.md` for detailed admin panel documentation.
 
 ### Programming Examples
 

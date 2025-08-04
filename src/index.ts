@@ -1,10 +1,16 @@
 import express from 'express';
-import { LedgerService } from './services/LedgerService';
+import cors from 'cors';
+import { LedgerService, AccountType } from './services/LedgerService';
 import { CreateAccountRequest, CreateTransactionRequest } from './types';
-import { AccountType } from '@prisma/client';
 
 const app = express();
 const ledgerService = new LedgerService();
+
+// Enable CORS for admin panel
+app.use(cors({
+  origin: ['http://localhost:3001', 'http://127.0.0.1:3001'],
+  credentials: true,
+}));
 
 app.use(express.json());
 
@@ -65,7 +71,7 @@ app.get('/accounts/code/:code/balance', async (req, res) => {
     const balance = await ledgerService.getAccountBalance(req.params.code);
     res.json({ 
       accountCode: req.params.code, 
-      balance: balance.toNumber() 
+      balance: balance 
     });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
@@ -135,8 +141,8 @@ app.get('/reports/trial-balance', async (req, res) => {
         name: entry.account.name,
         type: entry.account.type,
       },
-      debit: entry.debit.toNumber(),
-      credit: entry.credit.toNumber(),
+      debit: entry.debit,
+      credit: entry.credit,
     }));
     res.json(formattedTrialBalance);
   } catch (error: any) {
@@ -161,7 +167,7 @@ app.get('/reports/general-ledger', async (req, res) => {
         code: entry.creditAccount.code,
         name: entry.creditAccount.name,
       } : undefined,
-      amount: entry.amount.toNumber(),
+      amount: entry.amount,
     }));
     res.json(formattedEntries);
   } catch (error: any) {

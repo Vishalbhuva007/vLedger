@@ -1,8 +1,25 @@
-import { PrismaClient, AccountType, TransactionStatus } from '@prisma/client';
-import { Decimal } from 'decimal.js';
+import { PrismaClient } from '@prisma/client';
+
+// Define constants for account types and transaction status
+export const AccountType = {
+  ASSET: 'ASSET',
+  LIABILITY: 'LIABILITY',
+  EQUITY: 'EQUITY',
+  REVENUE: 'REVENUE',
+  EXPENSE: 'EXPENSE',
+} as const;
+
+export const TransactionStatus = {
+  PENDING: 'PENDING',
+  POSTED: 'POSTED',
+  CANCELLED: 'CANCELLED',
+} as const;
+
+export type AccountType = typeof AccountType[keyof typeof AccountType];
+export type TransactionStatus = typeof TransactionStatus[keyof typeof TransactionStatus];
 
 export class LedgerService {
-  private prisma: PrismaClient;
+  private readonly prisma: PrismaClient;
 
   constructor() {
     this.prisma = new PrismaClient();
@@ -87,7 +104,7 @@ export class LedgerService {
       throw new Error('Transaction does not balance: debits must equal credits');
     }
 
-    const totalAmount = new Decimal(totalDebits);
+    const totalAmount = totalDebits;
 
     return await this.prisma.$transaction(async (tx) => {
       // Create the transaction
@@ -128,7 +145,7 @@ export class LedgerService {
             transactionId: transaction.id,
             debitAccountId: debitAccount?.id,
             creditAccountId: creditAccount?.id,
-            amount: new Decimal(entry.amount),
+            amount: entry.amount,
             description: entry.description,
           },
         });
@@ -181,7 +198,7 @@ export class LedgerService {
   }
 
   // Reporting
-  async getAccountBalance(accountCode: string): Promise<Decimal> {
+  async getAccountBalance(accountCode: string): Promise<number> {
     const account = await this.prisma.account.findUnique({
       where: { code: accountCode },
       include: {
@@ -203,28 +220,28 @@ export class LedgerService {
     }
 
     // Calculate balance based on account type
-    let balance = new Decimal(0);
+    let balance = 0;
 
     // Sum debits
     const totalDebits = account.debitEntries
-      .filter(entry => entry.transaction.status === TransactionStatus.POSTED)
-      .reduce((sum, entry) => sum.plus(entry.amount), new Decimal(0));
+      .filter((entry: any) => entry.transaction.status === TransactionStatus.POSTED)
+      .reduce((sum: number, entry: any) => sum + entry.amount, 0);
 
     // Sum credits
     const totalCredits = account.creditEntries
-      .filter(entry => entry.transaction.status === TransactionStatus.POSTED)
-      .reduce((sum, entry) => sum.plus(entry.amount), new Decimal(0));
+      .filter((entry: any) => entry.transaction.status === TransactionStatus.POSTED)
+      .reduce((sum: number, entry: any) => sum + entry.amount, 0);
 
     // Calculate balance based on account type
     switch (account.type) {
       case AccountType.ASSET:
       case AccountType.EXPENSE:
-        balance = totalDebits.minus(totalCredits);
+        balance = totalDebits - totalCredits;
         break;
       case AccountType.LIABILITY:
       case AccountType.EQUITY:
       case AccountType.REVENUE:
-        balance = totalCredits.minus(totalDebits);
+        balance = totalCredits - totalDebits;
         break;
     }
 
@@ -240,8 +257,8 @@ export class LedgerService {
       trialBalance.push({
         account,
         balance,
-        debit: balance.isPositive() && (account.type === AccountType.ASSET || account.type === AccountType.EXPENSE) ? balance : new Decimal(0),
-        credit: balance.isPositive() && (account.type === AccountType.LIABILITY || account.type === AccountType.EQUITY || account.type === AccountType.REVENUE) ? balance : new Decimal(0),
+        debit: balance > 0 && (account.type === AccountType.ASSET || account.type === AccountType.EXPENSE) ? balance : 0,
+        credit: balance > 0 && (account.type === AccountType.LIABILITY || account.type === AccountType.EQUITY || account.type === AccountType.REVENUE) ? balance : 0,
       });
     }
 
