@@ -2,6 +2,51 @@
 
 A modern, full-stack double-entry accounting system built with TypeScript, featuring a RESTful API backend and a React-based admin panel.
 
+## 🚀 Quick Demo
+
+> **Want to see it in action?** Follow the [Quick Start Guide](#-quick-start-guide) to get the system running in under 5 minutes!
+
+### 📱 Live Preview
+- **Admin Panel**: Modern React interface with real-time charts and analytics
+- **API Server**: RESTful endpoints for all accounting operations  
+- **Database**: SQLite for easy local development (PostgreSQL supported)
+- **Sample Data**: Pre-loaded accounts and transactions for immediate testing
+
+<div align="center">
+
+![vLedger Dashboard Preview](assets/admin/screenshots/dashboard.png)
+*Clean, modern dashboard with real-time financial insights*
+
+</div>
+
+## 🎯 What You'll Build
+
+Following this guide, you'll have a complete accounting system with:
+
+| Component | What You Get | Preview |
+|-----------|--------------|---------|
+| **📊 Dashboard** | Real-time financial overview with charts | [View →](assets/admin/screenshots/dashboard1.png) |
+| **🏦 Account Management** | Full chart of accounts with different types | [View →](assets/admin/screenshots/accounts.png) |
+| **💰 Transaction System** | Double-entry transaction processing | [View →](assets/admin/screenshots/create_transaction.png) |
+| **📋 Financial Reports** | Trial balance and general ledger | [View →](assets/admin/screenshots/reports-trial-balance.png) |
+| **🔌 REST API** | Complete API for integrations | [Docs →](#-api-endpoints) |
+
+> **Time to Setup**: ~5 minutes | **Tech Stack**: TypeScript + React + Prisma | **Database**: SQLite (ready to go!)
+
+## 📋 Table of Contents
+
+- [🚀 Quick Demo](#-quick-demo)
+- [🎯 What You'll Build](#-what-youll-build)
+- [🌟 Features](#-features)
+- [📸 Screenshots & Demo](#-admin-panel-screenshots--demo)
+- [🏗️ System Architecture](#️-system-architecture)
+- [📋 Prerequisites](#-prerequisites)
+- [🚀 Quick Start Guide](#-quick-start-guide)
+- [📁 Project Structure](#-project-structure)
+- [📊 API Endpoints](#-api-endpoints)
+- [💡 Usage Examples](#-usage-examples)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+
 ## 🌟 Features
 
 - **Double-Entry Bookkeeping**: Proper accounting principles with automatic balance validation
@@ -12,6 +57,137 @@ A modern, full-stack double-entry accounting system built with TypeScript, featu
 - **Financial Reports**: Trial Balance, General Ledger, and Account Balances
 - **RESTful API**: Complete API for integration with other systems
 - **Responsive UI**: Modern, mobile-friendly admin interface
+
+## 📸 Admin Panel Screenshots & Demo
+
+### 🎯 Dashboard Overview
+Get a comprehensive view of your financial data with interactive charts and key metrics.
+
+<div align="center">
+
+**Main Dashboard**
+![Dashboard Overview](assets/admin/screenshots/dashboard.png)
+
+**Dashboard with Analytics**
+![Dashboard Analytics](assets/admin/screenshots/dashboard1.png)
+
+**Charts & Analytics**
+![Charts and Analytics](assets/admin/screenshots/chars_and_analytics.png)
+
+</div>
+
+### 💼 Account Management
+Manage your chart of accounts with different account types following standard accounting practices.
+
+<div align="center">
+
+**Accounts Overview**
+![Accounts List](assets/admin/screenshots/accounts.png)
+
+**Create New Account**
+![Create Account](assets/admin/screenshots/create_account.png)
+
+</div>
+
+### 💸 Transaction Management
+Create and manage double-entry transactions with automatic balance validation.
+
+<div align="center">
+
+**Transactions List**
+![Transactions Overview](assets/admin/screenshots/transactions.png)
+
+**Create Transaction**
+![Create Transaction](assets/admin/screenshots/create_transaction.png)
+
+**View Transaction Details**
+![View Transaction](assets/admin/screenshots/view_transaction.png)
+
+**Transaction Details Extended**
+![Transaction Details](assets/admin/screenshots/view_transaction1.png)
+
+</div>
+
+### 📊 Financial Reports
+Generate comprehensive financial reports including Trial Balance and General Ledger.
+
+<div align="center">
+
+**Trial Balance Report**
+![Trial Balance](assets/admin/screenshots/reports-trial-balance.png)
+
+**General Ledger Report**
+![General Ledger](assets/admin/screenshots/general-ledger.png)
+
+</div>
+
+### ✨ Key Admin Panel Features Demonstrated
+
+| Feature | Description | Screenshot Reference |
+|---------|-------------|---------------------|
+| **📊 Real-time Dashboard** | Live financial summaries with interactive charts | `dashboard.png`, `dashboard1.png` |
+| **📈 Analytics & Charts** | Visual representation of financial data | `chars_and_analytics.png` |
+| **🏦 Account Management** | Create and manage chart of accounts | `accounts.png`, `create_account.png` |
+| **💰 Transaction Processing** | Double-entry transaction creation and management | `transactions.png`, `create_transaction.png` |
+| **🔍 Transaction Details** | Comprehensive transaction view with journal entries | `view_transaction.png`, `view_transaction1.png` |
+| **📋 Trial Balance** | Standard accounting trial balance report | `reports-trial-balance.png` |
+| **📖 General Ledger** | Detailed general ledger with filtering options | `general-ledger.png` |
+
+### 🎨 UI/UX Highlights
+
+- **🎯 Clean, Modern Interface**: Intuitive design following modern web standards
+- **📱 Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
+- **🎪 Interactive Charts**: Real-time data visualization using Recharts
+- **🔍 Easy Navigation**: Clear sidebar navigation with visual indicators
+- **✅ Form Validation**: Real-time validation for all data entry forms
+- **🎨 Professional Styling**: Tailwind CSS for consistent, beautiful design
+- **⚡ Fast Performance**: Optimized React components with efficient state management
+
+## 🎬 Features in Action
+
+### 📊 Dashboard & Analytics
+The main dashboard provides a comprehensive overview of your financial position with real-time charts and key performance indicators.
+
+![Dashboard with Analytics](assets/admin/screenshots/chars_and_analytics.png)
+
+**What you can do:**
+- 📈 View real-time financial summaries
+- 📊 Interactive charts for data visualization  
+- 🎯 Quick access to key metrics
+- 📱 Responsive design for any device
+
+### 🏦 Smart Account Management
+Create and organize your chart of accounts following standard accounting practices.
+
+![Account Creation](assets/admin/screenshots/create_account.png)
+
+**Key features:**
+- ✅ Account type validation (Asset, Liability, Equity, Revenue, Expense)
+- 🔢 Automatic account code generation
+- 📝 Detailed descriptions and categorization
+- 🎨 Clean, intuitive forms
+
+### 💰 Double-Entry Transaction Processing
+Create transactions that automatically maintain the fundamental accounting equation.
+
+![Transaction Creation](assets/admin/screenshots/create_transaction.png)
+
+**Powerful capabilities:**
+- ⚖️ Automatic debit/credit balance validation
+- 📅 Date and reference tracking
+- 📝 Detailed transaction descriptions
+- 🔄 Real-time balance updates
+
+### 📋 Professional Financial Reports
+Generate standard accounting reports with filtering and export capabilities.
+
+![Trial Balance Report](assets/admin/screenshots/reports-trial-balance.png)
+
+**Report types:**
+- 📊 Trial Balance with totals validation
+- 📖 General Ledger with transaction details
+- 🔍 Account-specific reporting
+- 📈 Visual data representation
 
 ## 🏗️ System Architecture
 
@@ -112,6 +288,17 @@ cd admin && npm run dev
 - **Admin Panel**: [http://localhost:3001](http://localhost:3001)
 - **API Health Check**: [http://localhost:3000/health](http://localhost:3000/health)
 - **API Base URL**: `http://localhost:3000`
+
+### 🎉 You're Done!
+
+Your vLedger system is now running! You should see:
+
+1. **Dashboard** - Financial overview with charts ([screenshot](assets/admin/screenshots/dashboard.png))
+2. **Accounts** - Pre-loaded chart of accounts ([screenshot](assets/admin/screenshots/accounts.png))
+3. **Transactions** - Sample transactions demonstrating double-entry ([screenshot](assets/admin/screenshots/transactions.png))
+4. **Reports** - Trial balance and general ledger ([screenshot](assets/admin/screenshots/reports-trial-balance.png))
+
+> 💡 **Pro Tip**: Check out the [Screenshots & Demo](#-admin-panel-screenshots--demo) section below to see all the features in action!
 
 ## 📁 Project Structure
 
